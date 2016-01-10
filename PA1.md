@@ -68,6 +68,7 @@ plot(as.factor(activity$timestring), activity$steps, outcex = 0.5, outpch = 4)
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+
 It appears that there is a major peak around 8:50 and also some smaller peaks at 12:00, 14:00, 15:30, 17:30 and 18:30 
 
 ## Imputing missing values
@@ -81,7 +82,7 @@ activity$steps[NA.index] = round(avg.step[activity$interval[NA.index]])
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-The following code can be used to plot the average step by interval of both weekdays and weekends:
+The following code adds a factor varible to label the days in a week so we can separate weekdays and weekends:
 
 ```r
 activity$day = weekdays(activity$date)
@@ -89,9 +90,16 @@ avg.step.weekday = with(activity[!activity$day %in% c("Saturday", "Sunday"),],ta
 avg.step.weekday=avg.step.weekday[order(as.numeric(names(avg.step.weekday)))]
 avg.step.weekend = with(activity[activity$day %in% c("Saturday", "Sunday"),],tapply(steps, interval, mean))
 avg.step.weekend=avg.step.weekend[order(as.numeric(names(avg.step.weekend)))]
+```
+
+
+Plot the difference
+
+```r
 plot(names(avg.step.weekday), avg.step.weekday,type = "l", col = "red", main = "Weekday & Weekend Comparison", ylab = "steps", xlab = "Interval")
 points(names(avg.step.weekend), avg.step.weekend,type = "l", col ="green")
 legend("topright", c("Weekdays","Weekends"), col = c("red", "green"), lty = 1)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png) 
+
